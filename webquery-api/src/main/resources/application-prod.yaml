@@ -7,4 +7,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: false
+
+logging:
+  level:
+    com.hdmf.webquery: INFO
+    org.hibernate.SQL: OFF
+    org.hibernate.orm.jdbc.bind: OFF
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

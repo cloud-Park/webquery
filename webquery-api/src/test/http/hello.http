@@ -1,0 +1,67 @@
+### 전체 조회
+GET {{host}}/api/v1/hello
+
+> {%
+    client.test("status 200", function() {
+        client.assert(response.status === 200, "Expected 200");
+    });
+    client.test("배열 반환", function() {
+        client.assert(Array.isArray(response.body), "Expected array");
+    });
+%}
+
+### 단건 조회
+GET {{host}}/api/v1/hello/1
+
+> {%
+    client.test("status 200", function() {
+        client.assert(response.status === 200, "Expected 200");
+    });
+    client.test("id 일치", function() {
+        client.assert(response.body.id === 1, "Expected id 1");
+    });
+%}
+
+### 생성
+POST {{host}}/api/v1/hello
+Content-Type: application/json
+
+{
+  "message": "Hello, World!"
+}
+
+> {%
+    client.test("status 200", function() {
+        client.assert(response.status === 200, "Expected 200");
+    });
+    client.test("message 일치", function() {
+        client.assert(response.body.message === "Hello, World!", "Expected message");
+    });
+    client.global.set("helloId", response.body.id);
+%}
+
+### 수정
+PUT {{host}}/api/v1/hello/{{helloId}}
+Content-Type: application/json
+
+{
+  "message": "Updated Message"
+}
+
+> {%
+    client.test("status 200", function() {
+        client.assert(response.status === 200, "Expected 200");
+    });
+    client.test("message 수정 확인", function() {
+        client.assert(response.body.message === "Updated Message", "Expected updated message");
+    });
+%}
+
+### 삭제
+DELETE {{host}}/api/v1/hello/{{helloId}}
+
+> {%
+    client.test("status 200", function() {
+        client.assert(response.status === 200, "Expected 200");
+    });
+%}

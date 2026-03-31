@@ -61,6 +61,24 @@ git config core.hooksPath .githooks
 ./gradlew ktlintFormat
 ```
 
+## Swagger
+
+로컬 개발 시 `http://localhost:8080/swagger-ui/index.html` 에서 확인할 수 있습니다.
+
+prod 환경에서는 비활성화됩니다.
+
+### 어노테이션 규칙
+
+SpringDoc이 `@GetMapping`, 반환 타입, `@ResponseStatus` 등에서 대부분을 자동 추론하므로 어노테이션은 최소화합니다.
+
+| 어노테이션 | 사용 기준 |
+|------------|-----------|
+| `@Tag` | 컨트롤러마다 필수 |
+| `@Operation(summary = ...)` | 메서드명만으로 의미가 불분명할 때만 |
+| `@ApiResponse` | 자동 추론되지 않는 에러 응답(`404`, `400` 등)만 명시 |
+
+그 외 어노테이션은 달지 않습니다.
+
 ## API
 
 API는 호출 주체에 따라 세 가지 prefix로 구분합니다.
@@ -99,3 +117,5 @@ API는 호출 주체에 따라 세 가지 prefix로 구분합니다.
   ]
 }
 ```
+
+## (작성필요)브랜치 전략
