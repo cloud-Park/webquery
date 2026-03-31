@@ -1,0 +1,21 @@
+#!/bin/sh
+echo "Running ktlint format..."
+./gradlew ktlintFormat
+
+if [ $? -ne 0 ]; then
+  echo "ktlintFormat failed. Commit aborted."
+  exit 1
+fi
+
+echo "Running ktlint check..."
+./gradlew ktlintCheck
+
+if [ $? -ne 0 ]; then
+  echo "ktlintCheck failed. Fix the above issues and recommit."
+  exit 1
+fi
+
+# 포맷팅으로 변경된 파일 자동 스테이징
+git add -u
+
+exit 0

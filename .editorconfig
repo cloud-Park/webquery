@@ -1,0 +1,23 @@
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{kt,kts}]
+indent_size = 4
+max_line_length = 120
+
+# import 정렬 - 와일드카드 금지
+ktlint_standard_no-wildcard-imports = enabled
+
+# 파일명이 클래스명과 일치해야 함
+ktlint_standard_filename = enabled
+
+# 불필요한 빈 줄 금지
+ktlint_standard_no-consecutive-blank-lines = enabled
+
+# trailing comma 강제 (멀티라인)
+ktlint_standard_trailing-comma-on-call-site = enabled
+ktlint_standard_trailing-comma-on-declaration-site = enabled

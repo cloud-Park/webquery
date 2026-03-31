@@ -1,0 +1,4 @@
+rootProject.name = 'webquery'
+include 'webquery-api'
+include 'webquery-application'
+include 'webquery-batch'

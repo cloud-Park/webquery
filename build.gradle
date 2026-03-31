@@ -1,0 +1,72 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.25' apply false
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25' apply false
+    id 'org.springframework.boot' version '3.5.13' apply false
+    id 'io.spring.dependency-management' version '1.1.7' apply false
+    id 'org.jetbrains.kotlin.plugin.jpa' version '1.9.25' apply false
+    id 'org.jlleitschuh.gradle.ktlint' version '12.1.1'
+}
+
+group = 'com.hdmf'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.jlleitschuh.gradle.ktlint'
+
+    group = 'com.hdmf'
+    version = '0.0.1-SNAPSHOT'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.13"
+        }
+    }
+
+    dependencies {
+        implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+        implementation 'org.jetbrains.kotlin:kotlin-reflect'
+        testImplementation 'io.kotest:kotest-runner-junit5:5.9.1'
+        testImplementation 'io.kotest:kotest-assertions-core:5.9.1'
+        testImplementation 'io.mockk:mockk:1.13.12'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.addAll '-Xjsr305=strict'
+        }
+    }
+
+    ktlint {
+        version = "1.3.1"
+        outputToConsole = true
+        coloredOutput = true
+    }
+
+    // 로컬 빌드(check) 시 ktlintCheck 자동 실행 제외
+    tasks.named('check') {
+        dependsOn.remove('ktlintCheck')
+        setDependsOn(dependsOn.findAll { it != tasks.findByName('ktlintCheck') })
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
